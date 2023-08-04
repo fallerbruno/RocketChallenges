@@ -13,7 +13,6 @@ import {
   CurrencyValue,
   TagContainer,
   TagText,
-  // TagText,
   ValueContainer,
 } from './styles'
 import { ShoppingCart } from 'phosphor-react'
@@ -21,7 +20,7 @@ import { CartContext } from '../../../../contexts/CartContext'
 export function CoffeeCard({ name, img, tag, description, value }: CoffeeType) {
   const [amount, setAmount] = useState(1)
   const [valueTotal, setValueTotal] = useState(value)
-  const { addCoffee, coffee } = useContext(CartContext)
+  const { addCoffee } = useContext(CartContext)
 
   function handleChangeAmount(plus: boolean) {
     if (plus) {
@@ -43,7 +42,6 @@ export function CoffeeCard({ name, img, tag, description, value }: CoffeeType) {
       amount,
       value,
     })
-    console.log(coffee)
   }
 
   return (

@@ -54,3 +54,18 @@ export const ButtonTextIcon = styled.button`
 
   cursor: pointer;
 `
+
+export const CartAmount = styled.span`
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme['yellow-dark']};
+  color: white;
+  font-size: 0.75rem;
+  margin-top: -0.3rem;
+  margin-left: -1.3rem;
+`

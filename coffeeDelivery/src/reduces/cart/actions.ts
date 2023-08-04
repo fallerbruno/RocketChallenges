@@ -7,7 +7,7 @@ export enum ActionTypes {
   REMOVE_COFFEE = ' REMOVE_COFFEE',
 }
 
-export function addCoffee(newCoffee: coffeeCartType) {
+export function addCoffeeAction(newCoffee: coffeeCartType) {
   return {
     type: ActionTypes.ADD_COFFEE,
     payload: {
@@ -16,7 +16,7 @@ export function addCoffee(newCoffee: coffeeCartType) {
   }
 }
 
-export function removeCoffee(removeCoffee: coffeeCartType) {
+export function removeCoffeeAction(removeCoffee: coffeeCartType) {
   return {
     type: ActionTypes.REMOVE_COFFEE,
     payload: {

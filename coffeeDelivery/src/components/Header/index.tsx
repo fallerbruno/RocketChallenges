@@ -1,9 +1,17 @@
-import { ButtonIconOnly, ButtonTextIcon, HeaderContainer } from './styles'
+import {
+  ButtonIconOnly,
+  ButtonTextIcon,
+  CartAmount,
+  HeaderContainer,
+} from './styles'
 import Logo from '../../assets/Logo.png'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Header() {
+  const { coffee } = useContext(CartContext)
   return (
     <HeaderContainer>
       <img src={Logo} alt="" />
@@ -17,6 +25,9 @@ export function Header() {
             <ShoppingCart size={22} color="#c47f17" weight="fill" />
           </ButtonIconOnly>
         </NavLink>
+        {coffee.cartState?.cart.length > 0 ? (
+          <CartAmount>{coffee.cartState?.cart.length}</CartAmount>
+        ) : null}
       </nav>
     </HeaderContainer>
   )

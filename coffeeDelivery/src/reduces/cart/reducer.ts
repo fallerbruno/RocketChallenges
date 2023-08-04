@@ -5,6 +5,7 @@ export interface coffeeCartType {
   value: number
   amount: number
   valueTotal: number
+  cartState?: coffeeCartType[]
 }
 
 export interface coffeeCartState {
@@ -15,7 +16,7 @@ export function cartReducer(state: coffeeCartState, action: any) {
   switch (action.type) {
     case ActionTypes.ADD_COFFEE:
       return produce(state, (draft) => {
-        draft.cart.push(action.payload.item)
+        draft.cart.push(action.payload.newCoffee)
       })
     case ActionTypes.REMOVE_COFFEE:
       return produce(state, (draft) => {
