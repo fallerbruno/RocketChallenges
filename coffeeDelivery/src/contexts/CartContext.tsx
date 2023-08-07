@@ -1,12 +1,15 @@
 /* eslint-disable */
 import { ReactNode, createContext, useReducer } from 'react'
 import { cartReducer, coffeeCartType } from '../reduces/cart/reducer'
-import { addCoffeeAction } from '../reduces/cart/actions'
+import { addCoffeeAction, removeAllAction, removeCoffeeAction, updateListAction } from '../reduces/cart/actions'
 
 interface CartInterfaceType {
   coffee: coffeeCartType[]
   removeCoffee: (item: coffeeCartType) => void
   addCoffee: (item: coffeeCartType) => void
+  updateList: (item: coffeeCartType) => void
+  removeList: (item: coffeeCartType) => void
+  removeAll: () => void
 }
 
 interface CartContextPrivderProps {
@@ -30,13 +33,26 @@ export function CartContextProvider({ children }: CartContextPrivderProps) {
       },
     })
   }
+
   function addCoffee(item: coffeeCartType) {
     dispatch(addCoffeeAction(item))
-    
+  }
+
+
+  function updateList(item: coffeeCartType) {
+    dispatch(updateListAction(item))
+  }
+
+  function removeList(item: coffeeCartType) {
+    dispatch(removeCoffeeAction(item))
+  }
+
+  function removeAll() {
+    dispatch(removeAllAction())
   }
 
   return (
-    <CartContext.Provider value={{ coffee, removeCoffee, addCoffee }}>
+    <CartContext.Provider value={{ coffee : coffee.cartState.cart, removeCoffee, addCoffee, updateList, removeList, removeAll }}>
       {children}
     </CartContext.Provider>
   )

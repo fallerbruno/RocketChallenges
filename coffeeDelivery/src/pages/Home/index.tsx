@@ -29,8 +29,6 @@ import cubano from '../../assets/Type=Cubano.png'
 import havaiano from '../../assets/Type=Havaiano.png'
 import arabe from '../../assets/Type=Árabe.png'
 import irlandes from '../../assets/Type=Irlandês.png'
-import { useContext } from 'react'
-import { CartContext } from '../../contexts/CartContext'
 
 export interface Tag {
   id: number

@@ -5,6 +5,8 @@ import { coffeeCartType } from './reducer'
 export enum ActionTypes {
   ADD_COFFEE = 'ADD_COFFEE',
   REMOVE_COFFEE = ' REMOVE_COFFEE',
+  UPDATE_LIST = 'UPDATE_LIST',
+  REMOVE_ALL = 'REMOVE_ALL',
 }
 
 export function addCoffeeAction(newCoffee: coffeeCartType) {
@@ -22,5 +24,20 @@ export function removeCoffeeAction(removeCoffee: coffeeCartType) {
     payload: {
       removeCoffee,
     },
+  }
+}
+
+export function updateListAction(updateList: coffeeCartType) {
+  return {
+    type: ActionTypes.UPDATE_LIST,
+    payload: {
+      updateList,
+    },
+  }
+}
+
+export function removeAllAction() {
+  return {
+    type: ActionTypes.REMOVE_ALL,
   }
 }

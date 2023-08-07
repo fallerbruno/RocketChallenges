@@ -41,6 +41,7 @@ export function CoffeeCard({ name, img, tag, description, value }: CoffeeType) {
       valueTotal,
       amount,
       value,
+      image: img,
     })
   }
 

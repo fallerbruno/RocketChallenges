@@ -5,8 +5,6 @@ export const LayoutContainer = styled.div`
   margin: 0 auto;
   padding: 2.5rem;
 
-  background-color: ${(props) => props.theme['background-color']};
-
   display: flex;
   flex-direction: column;
 `

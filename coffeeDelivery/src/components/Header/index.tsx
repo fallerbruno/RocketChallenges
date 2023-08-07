@@ -25,9 +25,7 @@ export function Header() {
             <ShoppingCart size={22} color="#c47f17" weight="fill" />
           </ButtonIconOnly>
         </NavLink>
-        {coffee.cartState?.cart.length > 0 ? (
-          <CartAmount>{coffee.cartState?.cart.length}</CartAmount>
-        ) : null}
+        {coffee.length > 0 ? <CartAmount>{coffee.length}</CartAmount> : null}
       </nav>
     </HeaderContainer>
   )
