@@ -1,3 +1,10 @@
+import { Card } from './Card'
+import { Main } from './styles'
+
 export function Issues() {
-  return <h1>Issues</h1>
+  return (
+    <Main>
+      <Card />
+    </Main>
+  )
 }
