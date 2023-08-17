@@ -1,5 +1,12 @@
 import { styled } from "@/styles";
-import { HomeContainer, Product } from "@/styles/pages/home";
+import {
+  ChefronContainerLeft,
+  ChefronContainerRight,
+  FooterData,
+  HomeContainer,
+  IconContainer,
+  Product,
+} from "@/styles/pages/home";
 import Image from "next/image";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
@@ -9,6 +16,8 @@ import Stripe from "stripe";
 import { priceFormatter } from "@/utils/formatter";
 import Link from "next/link";
 import Head from "next/head";
+import { CaretLeft, CaretRight, Handbag } from "@phosphor-icons/react";
+import { useState } from "react";
 interface HomeProps {
   products: {
     id: string;
@@ -19,27 +28,58 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [sliderNumberActive, setSliderNumberActive] = useState(0);
+  const test2 = currentSlide === 0 ? 1.5 : 2;
+  const test3 = currentSlide === 0 ? "auto" : "center";
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    initial: 0,
     slides: {
-      perView: 2.5,
-      spacing: 48,
+      perView: test2,
+      spacing: 56,
+      origin: test3,
     },
+    drag: false,
+
+    slideChanged(s) {
+      setCurrentSlide(s.track.details.rel);
+    },
+    created() {},
   });
+  const test = currentSlide !== 0 && { maxWidth: "100%" };
+
+  function ChangeSlideFoward(e: any) {
+    e.stopPropagation() || instanceRef.current?.next();
+    setSliderNumberActive((state) => state + 1);
+  }
+  
+  function ChangeSlideBack(e: any) {
+    e.stopPropagation() || instanceRef.current?.prev();
+    setSliderNumberActive((state) => state - 1);
+  }
+
+  function handleAddToCart() {
+    console.log("add to cart");
+  }
 
   return (
     <>
+      {currentSlide !== 0 && (
+        <ChefronContainerLeft onClick={(e) => ChangeSlideBack(e)}>
+          <CaretLeft size={32} />
+        </ChefronContainerLeft>
+      )}
       <Head>
         <title>Home | E-commerce</title>
       </Head>
-      <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map((product) => (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`}
-            prefetch={false}
-          >
-            <Product className="keen-slider__slide">
-              {/* coloca a maior altura e largura pois ela vai redimencionar de acordo com necessario */}
+      <HomeContainer
+        ref={sliderRef}
+        className="keen-slider"
+        style={{ ...test }}
+      >
+        {products.map((product, index) => (
+          <Product className="keen-slider__slide" key={product.id}>
+            <Link href={`/product/${product.id}`} prefetch={false}>
               <Image
                 src={product.imageUrl}
                 alt=""
@@ -47,47 +87,29 @@ export default function Home({ products }: HomeProps) {
                 height={480}
                 blurDataURL={product.imageUrl}
               />
+            </Link>
+            {sliderNumberActive === index && (
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <FooterData>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </FooterData>
+                <IconContainer onClick={handleAddToCart}>
+                  <Handbag size={32} color="#e1e1e6" />
+                </IconContainer>
               </footer>
-            </Product>
-          </Link>
+            )}
+          </Product>
         ))}
       </HomeContainer>
+      {sliderNumberActive < products.length - 1 ? (
+        <ChefronContainerRight onClick={(e) => ChangeSlideFoward(e)}>
+          <CaretRight size={32} />
+        </ChefronContainerRight>
+      ) : null}
     </>
   );
 }
-
-//SSR -> server side rendering
-// dessa forma ele carrega no server side incluse os logs aparecem no temrinal neste caso
-// somente em casos especificos que precisam de dados do servidor
-// usuario n tem acessos
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const response = await stripe.products.list({
-//     expand: ["data.default_price"],
-//   });
-
-//   const products = response.data.map((product) => {
-//     const price = product.default_price as Stripe.Price;
-
-//     return {
-//       id: product.id,
-//       name: product.name,
-//       imageUrl: product.images[0],
-//       url: product.url,
-//       price: priceFormatter.format(price.unit_amount ? price.unit_amount / 100 : 0),
-//     };
-//   });
-
-//   return {
-//     props: {
-//       products,
-//     },
-//   };
-// };
-
-//SSG -> server side generation
 export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ["data.default_price"],

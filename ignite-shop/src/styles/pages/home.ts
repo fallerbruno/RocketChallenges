@@ -1,10 +1,44 @@
 import { styled } from "..";
 
+export const ChefronContainerRight = styled("div", {
+  position: "absolute",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  right: "0",
+  bottom: 'auto',
+  zIndex: 200,
+  height: '100%',
+  width: '136px',
+  background: "linear-gradient(90deg, #12121400 0%, #121214 100%)",
+});
+
+export const ChefronContainerLeft = styled("div", {
+  position: "absolute",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  left: "0",
+  bottom: 'auto',
+  zIndex: 200,
+  height: '100%',
+  width: '136px',
+  background: "linear-gradient(270deg, #12121400 0%, #121214 100%)",
+});
+
 
 export const HomeContainer = styled("main", {
   display: "flex",
   width: "100%",
-  maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",
+  maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
+  marginLeft: "auto",
+  minHeight: "656px",
+});
+
+export const HomeContainer2 = styled("main", {
+  display: "flex",
+  width: "100%",
+  maxWidth: '100%',
   marginLeft: "auto",
   minHeight: "656px",
 });
@@ -15,6 +49,7 @@ export const Product = styled("div", {
   cursor: "pointer",
   position: "relative",
   overflow: "hidden",
+
 
   display: "flex",
   justifyContent: "center",
@@ -30,6 +65,7 @@ export const Product = styled("div", {
     left: "0.25rem",
     right: "0.25rem",
     padding: "2rem",
+    zIndex: 100,
 
     borderRadius: 6,
 
@@ -38,10 +74,6 @@ export const Product = styled("div", {
     justifyContent: "space-between",
 
     backgroundColor: "rgba(0,0,0,0.6)",
-
-    transform: "translateY(110%)",
-    opacity: 0,
-    transition: "all 0.2s ease-in-out",
 
     strong: {
       fontSize: "$lg",
@@ -55,10 +87,21 @@ export const Product = styled("div", {
     },
   },
 
-  "&:hover": {
-    footer: {
-      transform: "translateY(0%)",
-      opacity: 1,
-    },
-  },
+});
+
+export const FooterData = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+})
+
+export const IconContainer = styled("div", {
+  width: 50,
+  height: 50,
+  borderRadius: "8px",
+  background: "$green300",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "$white",
 });
