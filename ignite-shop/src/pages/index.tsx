@@ -30,14 +30,14 @@ interface HomeProps {
 export default function Home({ products }: HomeProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sliderNumberActive, setSliderNumberActive] = useState(0);
-  const test2 = currentSlide === 0 ? 1.5 : 2;
-  const test3 = currentSlide === 0 ? "auto" : "center";
+  const perViewDinamic = currentSlide === 0 ? 1.5 : 2;
+  const originDinamic = currentSlide === 0 ? "auto" : "center";
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     slides: {
-      perView: test2,
+      perView: perViewDinamic,
       spacing: 56,
-      origin: test3,
+      origin: originDinamic,
     },
     drag: false,
 
@@ -46,7 +46,7 @@ export default function Home({ products }: HomeProps) {
     },
     created() {},
   });
-  const test = currentSlide !== 0 && { maxWidth: "100%" };
+  const widthDinamic = currentSlide !== 0 && { maxWidth: "100%" };
 
   function ChangeSlideFoward(e: any) {
     e.stopPropagation() || instanceRef.current?.next();
@@ -75,7 +75,7 @@ export default function Home({ products }: HomeProps) {
       <HomeContainer
         ref={sliderRef}
         className="keen-slider"
-        style={{ ...test }}
+        style={{ ...widthDinamic }}
       >
         {products.map((product, index) => (
           <Product className="keen-slider__slide" key={product.id}>
