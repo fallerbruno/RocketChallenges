@@ -35,10 +35,11 @@ export default function Product({ product }: ProductProps) {
     useState(false);
   // const router = useRouter();
   async function handleByProduct() {
+    const priceId = [{ price: product.defaultPriceId, quantity: 1 }];
     try {
       setIsCreationCheckoutSession(true);
       const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
+        priceId,
       });
 
       const { checkoutUrl } = response.data;

@@ -38,12 +38,12 @@ export const CheckoutContainer = styled("main", {
 
 export const ImageContainer = styled("div", {
   width: "100%",
-  maxWidth: "138px",
-  height: "145px",
   background: "linear-gradient(180deg, #1ea483 0%, #7465d4 100%)",
-  borderRadius: "8px",
-  padding: "0.25rem",
+  borderRadius: "50%",
+  padding: "1rem 0.9rem ",
   marginTop: "4rem",
+  marginLeft: "-3rem",
+  boxShadow: "0px 0px 0px 4px rgba(0, 0, 0, 0.1)",
 
   display: "flex",
   justifyContent: "center",
@@ -53,3 +53,8 @@ export const ImageContainer = styled("div", {
     objectFit: "cover",
   },
 });
+
+export const ProductsContainer = styled("div", {
+  display: "flex",
+ 
+})

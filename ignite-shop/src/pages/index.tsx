@@ -17,21 +17,27 @@ import { priceFormatter } from "@/utils/formatter";
 import Link from "next/link";
 import Head from "next/head";
 import { CaretLeft, CaretRight, Handbag } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "@/contexts/CartContext";
 interface HomeProps {
   products: {
     id: string;
     name: string;
     imageUrl: string;
     price: string;
+    defaultPriceId: string;
   }[];
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addToCart } = useContext(CartContext);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sliderNumberActive, setSliderNumberActive] = useState(0);
+
   const perViewDinamic = currentSlide === 0 ? 1.5 : 2;
   const originDinamic = currentSlide === 0 ? "auto" : "center";
+  const widthDinamic = currentSlide !== 0 && { maxWidth: "100%" };
+
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     slides: {
@@ -46,20 +52,28 @@ export default function Home({ products }: HomeProps) {
     },
     created() {},
   });
-  const widthDinamic = currentSlide !== 0 && { maxWidth: "100%" };
 
   function ChangeSlideFoward(e: any) {
     e.stopPropagation() || instanceRef.current?.next();
     setSliderNumberActive((state) => state + 1);
   }
-  
+
   function ChangeSlideBack(e: any) {
     e.stopPropagation() || instanceRef.current?.prev();
     setSliderNumberActive((state) => state - 1);
   }
 
-  function handleAddToCart() {
-    console.log("add to cart");
+  function handleAddToCart(product: any) {
+    console.log(product)
+    const price = product.price.split("R$")[1].trim().split(",").join(".");
+    const data = {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: +price,
+      defaultPriceId: product.defaultPriceId,
+    };
+    addToCart(data);
   }
 
   return (
@@ -94,7 +108,7 @@ export default function Home({ products }: HomeProps) {
                   <strong>{product.name}</strong>
                   <span>{product.price}</span>
                 </FooterData>
-                <IconContainer onClick={handleAddToCart}>
+                <IconContainer onClick={() => handleAddToCart(product)}>
                   <Handbag size={32} color="#e1e1e6" />
                 </IconContainer>
               </footer>
@@ -125,6 +139,7 @@ export const getStaticProps: GetStaticProps = async () => {
       price: priceFormatter.format(
         price.unit_amount ? price.unit_amount / 100 : 0
       ),
+      defaultPriceId: price.id,
     };
   });
 

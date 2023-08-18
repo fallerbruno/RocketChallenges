@@ -1,5 +1,5 @@
 import { stripe } from "@/lib/stripe";
-import { CheckoutContainer, ImageContainer } from "@/styles/pages/checkout";
+import { CheckoutContainer, ImageContainer, ProductsContainer } from "@/styles/pages/checkout";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -9,12 +9,13 @@ import Stripe from "stripe";
 interface CheckoutProps {
   customerName: string;
   product: {
-    name: string;
-    imageUrl: string;
-  };
+    images: string[];
+    updated: number;
+  }[];
 }
 
 export default function Checkout({ customerName, product }: CheckoutProps) {
+  console.log(product);
   return (
     <>
       <Head>
@@ -23,13 +24,16 @@ export default function Checkout({ customerName, product }: CheckoutProps) {
       </Head>
       <CheckoutContainer>
         <h1>Compra Efetuada!</h1>
-        <ImageContainer>
-          <Image src={product.imageUrl} alt="" width={120} height={110} />
-        </ImageContainer>
-
+        <ProductsContainer>
+          {product.map((product) => (
+            <ImageContainer key={product.updated}>
+              <Image src={product.images[0]} alt="" width={120} height={110} />
+            </ImageContainer>
+          ))}
+        </ProductsContainer>
         <p>
-          Uhuul <strong>{customerName}</strong>, sua{" "}
-          <strong>{product.name}</strong> já está a caminho da sua casa.
+          Uhuul <strong>{customerName}</strong>, sua <strong>Sua Compra</strong>{" "}
+          já está a caminho da sua casa.
         </p>
 
         <Link href="/">Voltar ao Catalogo</Link>
@@ -64,15 +68,16 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     ? session.customer_details.name
     : "";
 
-  const product = session.line_items?.data[0].price?.product as Stripe.Product;
+  const product = session.line_items?.data.map(
+    (product) => product.price?.product
+  );
+
+  console.log(product);
 
   return {
     props: {
       customerName,
-      product: {
-        name: product.name,
-        imageUrl: product.images[0],
-      },
+      product,
     },
   };
 };
